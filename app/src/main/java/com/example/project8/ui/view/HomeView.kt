@@ -46,6 +46,10 @@ import com.example.project8.ui.ViewModel.HomeViewModel
 import com.example.project8.ui.ViewModel.PenyediaViewModel
 import com.example.project8.ui.navigasi.DestinasiNavigasi
 
+object DestinasiHome : DestinasiNavigasi {
+    override val route = "home"
+    override val titleRes = "Home Mhs"
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
