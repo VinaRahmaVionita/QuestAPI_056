@@ -30,7 +30,15 @@ fun PengelolaHalaman(
                 }
             )
         }
-
+        composable(DestinasiEntry.route) {
+            EntryMhsScreen(navigateBack = {
+                navController.navigate(DestinasiHome.route) {
+                    popUpTo(DestinasiHome.route) {
+                        inclusive = true
+                    }
+                }
+            })
+        }
 
     }
 }
