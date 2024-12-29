@@ -11,6 +11,10 @@ import kotlinx.coroutines.launch
 
 
 
+fun Mahasiswa.toUiStateMhs(): InsertUiState = InsertUiState(
+    insertUiEvent = toInsertUiEvent()
+)
+
 fun InsertUiEvent.toMhs(): Mahasiswa = Mahasiswa(
     nim = nim,
     nama = nama,
