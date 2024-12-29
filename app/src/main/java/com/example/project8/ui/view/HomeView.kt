@@ -49,6 +49,18 @@ import com.example.project8.ui.navigasi.DestinasiNavigasi
 
 
 @Composable
+fun OnLoading(
+    modifier:
+    Modifier = Modifier) {
+    Image(
+        modifier = modifier.
+        size(200.dp),
+        painter = painterResource(R.drawable.loading_img),
+        contentDescription = stringResource(R.string.loading)
+    )
+}
+
+@Composable
 fun OnError(
     retryAction: () -> Unit,
     modifier:
