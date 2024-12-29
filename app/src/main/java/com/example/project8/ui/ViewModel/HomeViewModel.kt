@@ -18,3 +18,28 @@ sealed class HomeUiState {
     object Error : HomeUiState()
     object Loading : HomeUiState()
 }
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+class HomeViewModel(private val mhs: MahasiswaRepository) : ViewModel() {
+    var mhsUIState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+        private set
+
+    init {
+        getMhs()
+    }
+
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    fun getMhs() {
+        viewModelScope.launch {
+            mhsUIState = HomeUiState.Loading
+            mhsUIState = try {
+                HomeUiState.Success(mhs.getMahasiswa())
+            } catch (e: IOException) {
+                HomeUiState.Error
+            } catch (e: HttpException) {
+                HomeUiState.Error
+            }
+        }
+    }
+
+
+}
