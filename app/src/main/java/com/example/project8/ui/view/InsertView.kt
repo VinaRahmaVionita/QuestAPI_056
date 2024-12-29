@@ -32,7 +32,10 @@ import com.example.project8.ui.ViewModel.PenyediaViewModel
 import com.example.project8.ui.navigasi.DestinasiNavigasi
 import kotlinx.coroutines.launch
 
-
+object DestinasiEntry : DestinasiNavigasi {
+    override val route = "item_entry"
+    override val titleRes = "Entry Mhs"
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
