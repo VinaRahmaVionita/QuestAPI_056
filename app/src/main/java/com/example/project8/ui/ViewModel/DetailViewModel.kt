@@ -11,6 +11,55 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import com.example.project8.ui.view.DestinasiDetail
 
+class DetailViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val mahasiswaRepository: MahasiswaRepository
+) : ViewModel() {
+    private val nim: String = checkNotNull(savedStateHandle[DestinasiDetail.NIM])
+
+    var detailUiState: DetailUiState by mutableStateOf(DetailUiState())
+        private set
+
+    init {
+        getMahasiswaById()
+    }
+
+    private fun getMahasiswaById() {
+        viewModelScope.launch {
+            detailUiState = DetailUiState(isLoading = true)
+            try {
+                val result = mahasiswaRepository.getMahasiswaById(nim)
+                detailUiState = DetailUiState(
+                    detailUiEvent = result.toDetailUiEvent(),
+                    isLoading = false
+                )
+            } catch (e: Exception) {
+                detailUiState = DetailUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown"
+                )
+            }
+        }
+    }
+
+    fun deleteMhs() {
+        viewModelScope.launch {
+            detailUiState = DetailUiState(isLoading = true)
+            try {
+                mahasiswaRepository.deleteMahasiswa(nim)
+
+                detailUiState = DetailUiState(isLoading = false)
+            } catch (e: Exception) {
+                detailUiState = DetailUiState(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = e.message ?: "Unknown Error"
+                )
+            }
+        }
+    }
+}
 
 
 data class DetailUiState(
