@@ -12,6 +12,15 @@ import kotlinx.coroutines.launch
 
 
 
+fun UpdateUiEvent.toMahasiswaEntity(): Mahasiswa = Mahasiswa(
+    nim = nim,
+    nama = nama,
+    alamat = alamat,
+    jenisKelamin = jenisKelamin,
+    kelas = kelas,
+    angkatan = angkatan
+)
+
 data class UpdateUiState(
     val mahasiswaEvent: UpdateUiEvent = UpdateUiEvent(),
     val snackBarMessage: String? = null
