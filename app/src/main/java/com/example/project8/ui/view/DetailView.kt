@@ -45,6 +45,67 @@ import com.example.project8.ui.navigasi.DestinasiNavigasi
 
 
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailView(
+    modifier: Modifier = Modifier,
+    NavigateBack: () -> Unit,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit = { },
+    viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CostumeTopAppBar(
+                title = DestinasiDetail.titleRes,
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior,
+                navigateUp = NavigateBack
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onEditClick,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(18.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Mahasiswa"
+                )
+            }
+        }
+    ) { innerPadding ->
+        var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+
+        BodyDetailMhs(
+            detailUiState = viewModel.detailUiState,
+            modifier = Modifier.padding(innerPadding),
+            onDeleteClick = {
+                deleteConfirmationRequired = true
+            }
+        )
+
+        if (deleteConfirmationRequired) {
+            DeleteConfirmationDialog(
+                onDeleteConfirm = {
+                    viewModel.deleteMhs()
+                    onDeleteClick()
+                    deleteConfirmationRequired = false
+                },
+                onDeleteCancel = {
+                    deleteConfirmationRequired = false
+                },
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
 
 @Composable
 fun BodyDetailMhs(
