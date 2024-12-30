@@ -43,7 +43,12 @@ import com.example.project8.ui.ViewModel.PenyediaViewModel
 import com.example.project8.ui.ViewModel.toMhs
 import com.example.project8.ui.navigasi.DestinasiNavigasi
 
-
+object DestinasiDetail : DestinasiNavigasi {
+    override val route = "detail"
+    override val titleRes = "Detail Mahasiswa"
+    const val NIM = "nim"
+    val routeWithArgs = "$route/{$NIM}"
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
