@@ -46,6 +46,37 @@ import com.example.project8.ui.navigasi.DestinasiNavigasi
 
 
 @Composable
+fun ItemDetailMhs(
+    modifier: Modifier = Modifier,
+    mahasiswa: Mahasiswa,
+){
+    Card(
+        modifier = modifier.fillMaxWidth().padding(top = 20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            ComponentDetailMhs(judul = "NIM", isinya = mahasiswa.nim)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailMhs(judul = "Nama", isinya = mahasiswa.nama)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailMhs(judul = "Alamat", isinya = mahasiswa.alamat)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailMhs(judul = "JenisKelamin", isinya = mahasiswa.jenisKelamin)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailMhs(judul = "Kelas", isinya = mahasiswa.kelas)
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailMhs(judul = "Angkatan", isinya = mahasiswa.angkatan)
+        }
+    }
+}
+
+@Composable
 fun ComponentDetailMhs(
     modifier: Modifier = Modifier,
     judul:String,
