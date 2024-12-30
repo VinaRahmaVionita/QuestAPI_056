@@ -31,7 +31,10 @@ import com.example.project8.ui.ViewModel.UpdateViewModel
 import com.example.project8.ui.navigasi.DestinasiNavigasi
 import kotlinx.coroutines.launch
 
-
+object DestinasiUpdate : DestinasiNavigasi {
+    override val route = "update"
+    override val titleRes = "Update Mahasiswa"
+}
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
