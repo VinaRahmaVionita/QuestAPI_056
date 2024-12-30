@@ -30,7 +30,12 @@ object PenyediaViewModel {
                     mahasiswaApplication().container.mahasiswaRepository
                 )
             }
-
+            initializer {
+                UpdateViewModel(
+                    savedStateHandle = createSavedStateHandle(),
+                    repository = mahasiswaApplication().container.mahasiswaRepository,
+                )
+            }
         }
 }
 fun CreationExtras.mahasiswaApplication(): MahasiswaApplications = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MahasiswaApplications)
