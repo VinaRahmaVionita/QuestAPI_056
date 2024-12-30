@@ -12,6 +12,11 @@ import kotlinx.coroutines.launch
 
 
 
+data class UpdateUiState(
+    val mahasiswaEvent: UpdateUiEvent = UpdateUiEvent(),
+    val snackBarMessage: String? = null
+)
+
 data class UpdateUiEvent(
     val nim: String = "",
     val nama: String = "",
