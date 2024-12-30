@@ -72,6 +72,15 @@ fun PengelolaHalaman(
                 )
             }
         }
-
+        composable("${DestinasiUpdate.route}/{nim}") { navBackStackEntry ->
+            val nim = navBackStackEntry.arguments?.getString("nim")
+            nim?.let {
+                UpdateView(
+                    nim = it,
+                    onBack = { navController.popBackStack() },
+                    onNavigate = { navController.popBackStack() }
+                )
+            }
+        }
     }
 }
