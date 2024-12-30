@@ -33,6 +33,60 @@ import kotlinx.coroutines.launch
 
 
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@Composable
+fun UpdateView(
+    nim: String,
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: UpdateViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            CostumeTopAppBar(
+                title = "Update Mahasiswa",
+                canNavigateBack = true,
+                navigateUp = onBack
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            FormInput(
+                insertUiEvent = uiState.mahasiswaEvent,
+                onValueChange = viewModel::updateMahasiswaState,
+                onSaveClick = {
+                    coroutineScope.launch {
+                        viewModel.updateData()
+                        onNavigate()
+                    }
+                }
+            )
+        }
+    }
+}
+
 @Composable
 fun FormInput(
     insertUiEvent: UpdateUiEvent,
