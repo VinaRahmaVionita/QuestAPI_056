@@ -10,6 +10,56 @@ import com.example.project8.model.Mahasiswa
 import com.example.project8.repository.MahasiswaRepository
 import kotlinx.coroutines.launch
 
+class UpdateViewModel(
+    private val repository: MahasiswaRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    var uiState by mutableStateOf(UpdateUiState())
+        private set
+
+    private val _nim: String = checkNotNull(savedStateHandle["nim"])
+
+    init {
+        getMahasiswaDetail()
+    }
+
+    private fun getMahasiswaDetail() {
+        viewModelScope.launch {
+            try {
+                val mahasiswa = repository.getMahasiswaById(_nim)
+                uiState = UpdateUiState(mahasiswaEvent = mahasiswa.toUpdateUiEvent())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun updateMahasiswaState(mahasiswaEvent: UpdateUiEvent) {
+        uiState = uiState.copy(mahasiswaEvent = mahasiswaEvent)
+    }
+
+    fun updateData() {
+        val currentEvent = uiState.mahasiswaEvent
+
+        viewModelScope.launch {
+            try {
+                repository.updateMahasiswa(currentEvent.nim, currentEvent.toMahasiswaEntity())
+                uiState = uiState.copy(
+                    snackBarMessage = "Data berhasil diupdate",
+                    mahasiswaEvent = UpdateUiEvent()
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    snackBarMessage = "Data gagal diupdate"
+                )
+            }
+        }
+    }
+
+    fun resetSnackBarMessage() {
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 
 fun Mahasiswa.toUpdateUiEvent(): UpdateUiEvent = UpdateUiEvent(
     nim = nim,
