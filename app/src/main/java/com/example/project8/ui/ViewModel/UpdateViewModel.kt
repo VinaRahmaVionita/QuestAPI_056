@@ -11,6 +11,14 @@ import com.example.project8.repository.MahasiswaRepository
 import kotlinx.coroutines.launch
 
 
+fun Mahasiswa.toUpdateUiEvent(): UpdateUiEvent = UpdateUiEvent(
+    nim = nim,
+    nama = nama,
+    alamat = alamat,
+    jenisKelamin = jenisKelamin,
+    kelas = kelas,
+    angkatan = angkatan
+)
 
 fun UpdateUiEvent.toMahasiswaEntity(): Mahasiswa = Mahasiswa(
     nim = nim,
